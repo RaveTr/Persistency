@@ -6,5 +6,6 @@ import net.minecraftforge.fml.common.Mod;
 public class PersistencyForge {
 
     public PersistencyForge() {
+
     }
 }
