@@ -1,6 +1,6 @@
 package com.mememan.persistency.datagen;
 
-import com.eelteam.enhancedentitylibrary.EELConstants;
+import com.mememan.persistency.PersistencyConstants;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.JsonKeySortOrderCallback;
@@ -17,7 +17,7 @@ public class PersistencyDataGenFabric implements DataGeneratorEntrypoint {
     @Nullable
     @Override
     public String getEffectiveModId() {
-        return EELConstants.MOD_ID;
+        return PersistencyConstants.MOD_ID;
     }
 
     @Override
