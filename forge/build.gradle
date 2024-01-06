@@ -2,10 +2,11 @@ plugins {
     id("net.minecraftforge.gradle")
     id("org.spongepowered.mixin")
     id("org.parchmentmc.librarian.forgegradle") version("${forge_mappings_channel_plugin_version}")
+    id("com.modrinth.minotaur")
 }
 
 base {
-    archivesName = "${mod_name}-${minecraft_version}-${mod_version}-forge"
+    archivesName = "${mod_name}-${minecraft_version}-forge"
 }
 
 mixin {
@@ -118,14 +119,22 @@ jar.finalizedBy('reobfJar')
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId base.archivesName.get()
-            from components.java
-            fg.component(it)
+            artifactId = base.archivesName.get()
+            version = mod_version
+
+            artifact jar
+            artifact sourcesJar
+            artifact javadocJar
         }
     }
-    repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
-        }
-    }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_API_KEY")
+    projectId = mod_id
+    versionNumber = mod_version
+    versionType = "release"
+    uploadFile = jar
+    gameVersions = ["${minecraft_version}"]
+    loaders = ["forge"]
 }

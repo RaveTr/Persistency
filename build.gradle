@@ -1,8 +1,9 @@
 plugins {
-    id("fabric-loom") version "${fabric_loom_version}" apply(false)
-    id("net.minecraftforge.gradle") version "${forge_gradle_version}" apply(false)
-    id("org.spongepowered.gradle.vanilla") version "${spongepowered_gradle_version}" apply(false)
-    id("org.spongepowered.mixin") version "${mixin_plugin_version}" apply(false)
+    id("fabric-loom") version("${fabric_loom_version}") apply(false)
+    id("net.minecraftforge.gradle") version("${forge_gradle_version}") apply(false)
+    id("org.spongepowered.gradle.vanilla") version("${spongepowered_gradle_version}") apply(false)
+    id("org.spongepowered.mixin") version("${mixin_plugin_version}") apply(false)
+    id("com.modrinth.minotaur") version("${modrinth_minotaur_plugin_version}") apply(false)
 }
 
 subprojects {
@@ -184,5 +185,19 @@ subprojects {
 
     tasks.withType(GenerateModuleMetadata).configureEach {
         enabled = false
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "Cloudsmith"
+                url = "https://api-g.cloudsmith.io/maven/meme-man-mods/persistency/"
+
+                credentials {
+                    username = System.getenv("CLOUDSMITH_USERNAME")
+                    password = System.getenv("CLOUDSMTH_API_KEY")
+                }
+            }
+        }
     }
 }

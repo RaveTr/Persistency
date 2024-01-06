@@ -1,9 +1,10 @@
 plugins {
     id("fabric-loom")
+    id("com.modrinth.minotaur")
 }
 
 base {
-    archivesName = "${mod_name}-${minecraft_version}-${mod_version}-fabric"
+    archivesName = "${mod_name}-${minecraft_version}-fabric"
 }
 
 dependencies {
@@ -86,13 +87,20 @@ processResources {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId base.archivesName.get()
+            artifactId = base.archivesName.get()
+            version = mod_version
+
             from components.java
         }
     }
-    repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
-        }
-    }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_API_KEY")
+    projectId = mod_id
+    versionNumber = mod_version
+    versionType = "release"
+    uploadFile = remapJar
+    gameVersions = ["${minecraft_version}"]
+    loaders = ["fabric"]
 }
