@@ -195,7 +195,7 @@ subprojects {
 
                 credentials {
                     username = System.getenv("CLOUDSMITH_USERNAME")
-                    password = System.getenv("CLOUDSMTH_API_KEY")
+                    password = System.getenv("CLOUDSMITH_API_KEY")
                 }
             }
         }
