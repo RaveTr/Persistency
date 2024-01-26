@@ -1,66 +1,56 @@
 package com.mememan.persistency.common.capabilities.cooldown;
 
 import com.mememan.persistency.common.registrar.CapabilityRegistrar;
+import com.mememan.persistency.mixins.IItemCooldownsAccessor;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 
+import java.util.Map;
+
 public class CooldownCapability implements ICooldownCapability {
     public static final Capability<ICooldownCapability> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
-    private int startTick = 0;
-    private int curCooldownTick = 0;
-    private int endTick = 0;
+    private ItemCooldowns curTracker;
 
     public CooldownCapability() {
         CapabilityRegistrar.registerCapabilityProvider(new CooldownCapabilityProvider());
     }
 
     @Override
-    public int getCooldownStartTime() {
-        return startTick;
+    public ItemCooldowns getCurTracker() {
+        return curTracker;
     }
 
     @Override
-    public void setCooldownStartTime(int curTick) {
-        this.startTick = curTick;
+    public void setCurTracker(ItemCooldowns curTracker) {
+        this.curTracker = curTracker;
     }
 
     @Override
-    public int getCooldownTick() {
-        return curCooldownTick;
-    }
-
-    @Override
-    public void setCooldownTick(int curTick) {
-        this.curCooldownTick = curTick;
-    }
-
-    @Override
-    public int getCooldownEndTime() {
-        return endTick;
-    }
-
-    @Override
-    public void setCooldownEndTime(int curTick) {
-        this.endTick = curTick;
-    }
-
-    @Override
-    public CompoundTag serializeNBT() {
+    public CompoundTag serializeNBT() { //TODO Packet sync w/setter S2C
         CompoundTag heldCooldownDataTag = new CompoundTag();
+        ListTag heldCooldownDataListTag = new ListTag();
 
-        heldCooldownDataTag.putInt(START_TICK_DATA_KEY, startTick);
-        heldCooldownDataTag.putInt(CUR_COOLDOWN_TICK_DATA_KEY, curCooldownTick);
-        heldCooldownDataTag.putInt(END_TICK_DATA_KEY, endTick);
+
 
         return heldCooldownDataTag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        this.startTick = nbt.getInt(START_TICK_DATA_KEY);
-        this.curCooldownTick = nbt.getInt(CUR_COOLDOWN_TICK_DATA_KEY);
-        this.endTick = nbt.getInt(END_TICK_DATA_KEY);
+        ListTag heldCooldownDataTag = nbt.getList(CUR_COOLDOWN_TICK_DATA_KEY, 10);
+
+        ItemCooldowns curTracker = new ItemCooldowns();
+
+        if (curTracker instanceof IItemCooldownsAccessor trackerAccessor) {
+            Map<Item, ItemCooldowns.CooldownInstance> trackerCooldowns = trackerAccessor.getCooldowns();
+
+            trackerCooldowns.clear(); // Just in case :HEHEHEHA:
+
+        }
     }
 }

@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 
 public final class PersistencyEventManager {
 
-    protected static void registerEvents(IEventBus modBus, IEventBus forgeBus) {
+    static void registerEvents(IEventBus modBus, IEventBus forgeBus) {
         registerClientEvents(modBus, forgeBus);
         registerCommonEvents(modBus, forgeBus);
         registerServerEvents(modBus, forgeBus);

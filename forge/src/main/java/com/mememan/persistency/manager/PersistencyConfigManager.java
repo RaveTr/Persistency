@@ -20,7 +20,7 @@ public final class PersistencyConfigManager {
         MAIN_COMMON = commonSpecPair.getLeft();
     }
 
-    protected static void registerConfigs() {
+    static void registerConfigs() {
         registerConfigFolder();
 
         registerClientConfig();

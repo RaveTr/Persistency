@@ -1,6 +1,7 @@
 package com.mememan.persistency.common.capabilities.cooldown;
 
 import com.mememan.persistency.common.capabilities.base.IBaseCapability;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 
 @AutoRegisterCapability
@@ -10,22 +11,9 @@ public interface ICooldownCapability extends IBaseCapability {
     String CUR_COOLDOWN_TICK_DATA_KEY = "curCooldownTick";
     String END_TICK_DATA_KEY = "endTick";
 
-    /**
-     * Gets the start time of the cooldown (typically the current game tick).
-     *
-     * @return The start time of the cooldown (in ticks).
-     */
-    int getCooldownStartTime();
+    ItemCooldowns getCurTracker();
 
-    void setCooldownStartTime(int curTick);
-
-    int getCooldownTick();
-
-    void setCooldownTick(int curTick);
-
-    int getCooldownEndTime();
-
-    void setCooldownEndTime(int curTick);
+    void setCurTracker(ItemCooldowns curTracker);
 
     @Override
     default String getName() {

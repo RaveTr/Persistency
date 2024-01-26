@@ -14,10 +14,12 @@ import net.minecraftforge.eventbus.api.Cancelable;
 @Cancelable
 public class ItemCooldownStartEvent extends ItemCooldownEvent {
     private int cooldownTicks;
+    private boolean hardSetCooldownTicks;
 
-    public ItemCooldownStartEvent(Item targetCooldownItem, int cooldownTicks) {
+    public ItemCooldownStartEvent(Item targetCooldownItem, int cooldownTicks, boolean hardSetCooldownTicks) {
         super(targetCooldownItem);
         this.cooldownTicks = cooldownTicks;
+        this.hardSetCooldownTicks = hardSetCooldownTicks;
     }
 
     public int getCooldownTicks() {
@@ -26,5 +28,13 @@ public class ItemCooldownStartEvent extends ItemCooldownEvent {
 
     public void setCooldownTicks(int cooldownTicks) {
         this.cooldownTicks = cooldownTicks;
+    }
+
+    public boolean isHardSetCooldownTicks() {
+        return hardSetCooldownTicks;
+    }
+
+    public void setHardSetCooldownTicks(boolean hardSetCooldownTicks) {
+        this.hardSetCooldownTicks = hardSetCooldownTicks;
     }
 }

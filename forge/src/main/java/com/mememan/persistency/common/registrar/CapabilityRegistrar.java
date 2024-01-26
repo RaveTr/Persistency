@@ -1,8 +1,12 @@
 package com.mememan.persistency.common.registrar;
 
+import com.mememan.persistency.common.capabilities.base.IBaseCapability;
 import com.mememan.persistency.common.capabilities.base.ISerializableCapProvider;
+import com.mememan.persistency.common.events.PersistencyCommonSetupEvents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -16,6 +20,15 @@ public final class CapabilityRegistrar {
 
     }
 
+    /**
+     * Registers a {@linkplain ISerializableCapProvider serializable capability provider} in {@link #QUEUED_CAP_PROVIDERS}. Should typically be called in
+     * an {@link IBaseCapability} instance's constructor, passing a new {@linkplain ISerializableCapProvider serializable capability provider} instance
+     * pertaining to the target capability type. By default, capability registration is handled automatically via {@link AutoRegisterCapability} for cap reg and
+     * {@link PersistencyCommonSetupEvents.ForgeSetupEvents#onAttachCapabilitiesEvent(AttachCapabilitiesEvent)}.
+     *
+     * @param capabilityProvider The {@linkplain ISerializableCapProvider serializable capability provider} to register.
+     * @param <ISCP> An {@link ISerializableCapProvider} instance/subclass.
+     */
     public static <ISCP extends ISerializableCapProvider> void registerCapabilityProvider(ISCP capabilityProvider) {
         QUEUED_CAP_PROVIDERS.add(capabilityProvider);
     }

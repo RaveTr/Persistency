@@ -8,16 +8,16 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class PersistencyEventFactory {
 
-    public static ItemCooldownStartEvent onItemCooldownStart(Item targetCooldownItem, int cooldownTicks) {
-        ItemCooldownStartEvent icdsEvent = new ItemCooldownStartEvent(targetCooldownItem, cooldownTicks);
+    public static ItemCooldownStartEvent onItemCooldownStart(Item targetCooldownItem, int cooldownTicks, boolean hardSetCooldownTicks) {
+        ItemCooldownStartEvent icdsEvent = new ItemCooldownStartEvent(targetCooldownItem, cooldownTicks, hardSetCooldownTicks);
 
         MinecraftForge.EVENT_BUS.post(icdsEvent);
 
         return icdsEvent;
     }
 
-    public static ItemCooldownTickEvent onItemCooldownTick(Item targetCooldownItem, int cooldownTicks) {
-        ItemCooldownTickEvent icdtEvent = new ItemCooldownTickEvent(targetCooldownItem, cooldownTicks);
+    public static ItemCooldownTickEvent onItemCooldownTick(Item targetCooldownItem, int cooldownTicks, boolean hardSetCooldownTicks) {
+        ItemCooldownTickEvent icdtEvent = new ItemCooldownTickEvent(targetCooldownItem, cooldownTicks, hardSetCooldownTicks);
 
         MinecraftForge.EVENT_BUS.post(icdtEvent);
 
