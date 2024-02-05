@@ -18,6 +18,7 @@ public final class PersistencyEventManager {
 
     private static void registerCommonEvents(IEventBus modBus, IEventBus forgeBus) {
         modBus.register(PersistencyCommonSetupEvents.ModSetupEvents.class);
+        modBus.register(PersistencyNetworkManager.class);
 
         forgeBus.register(PersistencyCommonSetupEvents.ForgeSetupEvents.class);
         forgeBus.register(PersistencyCommonMiscEvents.class);

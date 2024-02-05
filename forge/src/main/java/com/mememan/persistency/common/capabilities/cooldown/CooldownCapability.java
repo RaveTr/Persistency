@@ -2,6 +2,7 @@ package com.mememan.persistency.common.capabilities.cooldown;
 
 import com.mememan.persistency.common.registrar.CapabilityRegistrar;
 import com.mememan.persistency.mixins.IItemCooldownsAccessor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.Item;
@@ -44,7 +45,7 @@ public class CooldownCapability implements ICooldownCapability {
     public void deserializeNBT(CompoundTag nbt) {
         ListTag heldCooldownDataTag = nbt.getList(CUR_COOLDOWN_TICK_DATA_KEY, 10);
 
-        ItemCooldowns curTracker = new ItemCooldowns();
+        ItemCooldowns curTracker = Minecraft.getInstance().player.getCooldowns();
 
         if (curTracker instanceof IItemCooldownsAccessor trackerAccessor) {
             Map<Item, ItemCooldowns.CooldownInstance> trackerCooldowns = trackerAccessor.getCooldowns();
