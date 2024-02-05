@@ -7,7 +7,8 @@ import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 @AutoRegisterCapability
 public interface ICooldownCapability extends IBaseCapability {
     String COOLDOWN_CAP_NAME = "persistent_cooldown";
-    String CUR_COOLDOWN_TICK_DATA_KEY = "curCooldownTick";
+    String COOLDOWN_ITEM_KEYSET_DATA_KEY = "cooldownItemKeyset";
+    String COOLDOWN_INSTANCE_VALUESET_DATA_KEY = "cooldownInstanceValueset";
 
     ItemCooldowns getCurTracker();
 
