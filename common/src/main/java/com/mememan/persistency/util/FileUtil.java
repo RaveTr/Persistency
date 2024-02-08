@@ -31,7 +31,7 @@ public final class FileUtil {
             try {
                 Files.createDirectory(dirPath);
             } catch (IOException exception) {
-                if (exception instanceof FileAlreadyExistsException) PersistencyConstants.LOGGER.error("Failed to create '{}' directory - a file with the same name exists in the target directory", dirLabel);
+                if (exception instanceof FileAlreadyExistsException) PersistencyConstants.LOGGER.error("Failed to create '{}' directory - A file with the same name exists in the target directory", dirLabel);
                 else PersistencyConstants.LOGGER.error("Problem with creating {} directory (Permissions?)", dirLabel, exception);
 
                 throw new RuntimeException("Problem creating directory", exception);

@@ -1,6 +1,8 @@
 package com.mememan.persistency.common.capabilities.cooldown;
 
+import com.mememan.persistency.common.network.packets.s2c.SetCooldownCapabilityValuePacket;
 import com.mememan.persistency.common.registrar.CapabilityRegistrar;
+import com.mememan.persistency.manager.PersistencyNetworkManager;
 import com.mememan.persistency.mixins.IItemCooldownsAccessor;
 import com.mememan.persistency.util.CollectionUtil;
 import com.mememan.persistency.util.SerializationUtil;
@@ -34,11 +36,12 @@ public class CooldownCapability implements ICooldownCapability {
 
     @Override
     public void setCurTracker(ItemCooldowns curTracker) {
+        PersistencyNetworkManager.sendPacketToAll(new SetCooldownCapabilityValuePacket(((IItemCooldownsAccessor) this.curTracker).getCooldowns(), ((IItemCooldownsAccessor) curTracker).getCooldowns()));
         this.curTracker = curTracker;
     }
 
     @Override
-    public CompoundTag serializeNBT() { //TODO MapTag impl. Ordering seems to work (since K-V index is ensured regardless of actual list index), but this is a bit messy/icky :p
+    public CompoundTag serializeNBT() { //TODO MapTag impl. Ordering seems to work (since K-V index is ensured regardless of actual list order), but this is a bit messy/icky :p
         CompoundTag heldCooldownDataTag = new CompoundTag();
         ListTag heldCooldownItemListTag = new ListTag();
         ListTag heldCooldownInstanceListTag = new ListTag();
@@ -61,7 +64,7 @@ public class CooldownCapability implements ICooldownCapability {
         ListTag heldCooldownItemListTag = nbt.getList(COOLDOWN_ITEM_KEYSET_DATA_KEY, 10);
         ListTag heldCooldownInstanceListTag = nbt.getList(COOLDOWN_INSTANCE_VALUESET_DATA_KEY, 10);
         ObjectArrayList<Item> heldCooldownItems = Util.make(new ObjectArrayList<>(heldCooldownItemListTag.size()), (targetItemList) -> heldCooldownItemListTag.forEach((targetItemTag) -> targetItemList.add(ItemStack.of((CompoundTag) targetItemTag).getItem())));
-        ObjectArrayList<ItemCooldowns.CooldownInstance> heldCooldownInstances = Util.make(new ObjectArrayList<>(heldCooldownInstanceListTag.size()), (targetInstanceList) -> heldCooldownInstanceListTag.forEach((targetInstanceTag) -> targetInstanceList.add(SerializationUtil.deserializeCooldown((CompoundTag) targetInstanceTag))));
+        ObjectArrayList<ItemCooldowns.CooldownInstance> heldCooldownInstances = Util.make(new ObjectArrayList<>(heldCooldownItemListTag.size()), (targetInstanceList) -> heldCooldownInstanceListTag.forEach((targetInstanceTag) -> targetInstanceList.add(SerializationUtil.deserializeCooldown((CompoundTag) targetInstanceTag))));
         ItemCooldowns curTracker = Minecraft.getInstance().player.getCooldowns();
 
         if (curTracker instanceof IItemCooldownsAccessor trackerAccessor) {
